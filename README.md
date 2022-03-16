@@ -11,7 +11,7 @@
 命令参数可选：  
 **-t  运行时长（ms，默认30s）**   
 **-p  输入的密码**  
-**-l  执行一次or直到超时（true or false，默认false）**  
+**-l  执行一次 or 直到超时（true or false，默认false）**  
 **-o  是否关闭支付保护，用于银行类（true or false）**  
         
 例：`adb shell 'export CLASSPATH=/data/local/tmp/uiwatcher.apk; app_process /system/bin com.tinypace.uiwathcer.UiWatcher' -t 100000 -p password -l true`  

@@ -1,5 +1,6 @@
 # UiWathcer
-无需安装即可实现app自动点击安装（输入密码等），目前基本支持市面上的常用手机。
+无需安装即可实现app自动点击安装（输入密码等），目前基本支持市面上的常用手机。  
+实现原理：通过反射的方式连接uiautomator
 ## 操作步骤：
 先将编译好的 uiwatcher.apk push 到手机里，执行以下命令：  
 `adb push uiwatcher.apk /data/local/tmp`  

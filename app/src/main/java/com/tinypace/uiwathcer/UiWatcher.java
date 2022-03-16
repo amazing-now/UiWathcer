@@ -52,7 +52,7 @@ public class UiWatcher {
         }
         final String brand = Build.BRAND;
         println("===============");
-        println("UiWatcher version:1.8.3");
+        println("UiWatcher version:1.9.0");
         println("BRAND:" + brand);
         println("SDK:" + Build.VERSION.SDK_INT);
         println("RELEASE:" + Build.VERSION.RELEASE);

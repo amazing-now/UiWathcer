@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        applicationId "com.tinypace.uiwathcer"
+        minSdkVersion 18
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.8.1"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                outputFileName = "uiwatcher.apk";
+            }
+        }
+    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+}
+
+dependencies {
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'com.android.support:multidex:1.0.3'
+    compileOnly files('libs/android.jar')
+
+}

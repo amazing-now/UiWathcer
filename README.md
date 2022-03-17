@@ -1,4 +1,4 @@
-# UiWathcer
+# UiWathcer （Demo）
 无需安装即可实现app自动点击安装（输入密码等），目前基本支持市面上的常用手机。     
 实现原理：通过反射的方式连接uiautomator
 ## 操作步骤：
@@ -16,4 +16,4 @@
         
 例：`adb shell 'export CLASSPATH=/data/local/tmp/uiwatcher.apk; app_process /system/bin com.tinypace.uiwathcer.UiWatcher' -t 100000 -p password -l true`  
                 
-**代码写的不好（后面做优化），方法可供参考**
+**代码写的不好，方法可供参考**

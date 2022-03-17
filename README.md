@@ -15,3 +15,5 @@
 **-o  是否关闭支付保护，用于银行类（true or false）**  
         
 例：`adb shell 'export CLASSPATH=/data/local/tmp/uiwatcher.apk; app_process /system/bin com.tinypace.uiwathcer.UiWatcher' -t 100000 -p password -l true`  
+                
+**代码写的不好（后面做优化），仅供参考**

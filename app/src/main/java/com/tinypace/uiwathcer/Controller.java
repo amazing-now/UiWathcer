@@ -46,7 +46,7 @@ public class Controller {
                     AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS |
                     AccessibilityServiceInfo.FLAG_REQUEST_ENHANCED_WEB_ACCESSIBILITY;
         }
-        context = ActivityThread.systemMain().getSystemContext();
+//        context = ActivityThread.systemMain().getSystemContext();
     }
 
     private void keepScreenOn() {
@@ -190,8 +190,8 @@ public class Controller {
         if (isScreenOff()) {
             println("检测到熄屏,开始点亮");
             turnScreenOn();
-            keepScreenOn();
-            println("保持屏幕常亮");
+//            keepScreenOn();
+//            println("保持屏幕常亮");
         }
         while (isStatusBarKeyguard() && count < maxCount) {
             println("检测到锁屏,开始解锁");

@@ -4,11 +4,13 @@ import android.app.UiAutomation;
 import android.os.Build;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;

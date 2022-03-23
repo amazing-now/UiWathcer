@@ -2,10 +2,10 @@ package com.tinypace.uiwathcer;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.annotation.SuppressLint;
-import android.app.ActivityThread;
 import android.app.UiAutomation;
 import android.content.Context;
 import android.graphics.Point;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -17,6 +17,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +48,26 @@ public class Controller {
                     AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS |
                     AccessibilityServiceInfo.FLAG_REQUEST_ENHANCED_WEB_ACCESSIBILITY;
         }
-//        context = ActivityThread.systemMain().getSystemContext();
+
+    }
+
+    private void getSystemContext(){
+        Looper.prepareMainLooper();
+        try {
+            Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
+            Constructor<?> activityThreadConstructor = activityThreadClass.getDeclaredConstructor();
+            activityThreadConstructor.setAccessible(true);
+            Object activityThread = activityThreadConstructor.newInstance();
+            Method getSystemContextMethod = activityThreadClass.getDeclaredMethod("getSystemContext");
+            context = (Context) getSystemContextMethod.invoke(activityThread);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void keepScreenOn() {
+        getSystemContext();
+
         // 获取电源管理器对象
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
@@ -190,8 +208,8 @@ public class Controller {
         if (isScreenOff()) {
             println("检测到熄屏,开始点亮");
             turnScreenOn();
-//            keepScreenOn();
-//            println("保持屏幕常亮");
+            keepScreenOn();
+            println("保持屏幕常亮");
         }
         while (isStatusBarKeyguard() && count < maxCount) {
             println("检测到锁屏,开始解锁");
@@ -343,5 +361,9 @@ public class Controller {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public UiAutomation getUiAutomation() {
+        return uiAutomation;
     }
 }

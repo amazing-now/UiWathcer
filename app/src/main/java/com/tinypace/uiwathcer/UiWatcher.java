@@ -1,8 +1,13 @@
 package com.tinypace.uiwathcer;
 
+import android.app.Notification;
+import android.app.UiAutomation;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.FactoryTest;
+import android.os.Parcelable;
 import android.util.Base64;
+import android.view.accessibility.AccessibilityEvent;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -52,7 +57,7 @@ public class UiWatcher {
         }
         final String brand = Build.BRAND;
         println("===============");
-        println("UiWatcher version:1.9.0");
+        println("UiWatcher version:1.10.0");
         println("BRAND:" + brand);
         println("SDK:" + Build.VERSION.SDK_INT);
         println("RELEASE:" + Build.VERSION.RELEASE);
@@ -142,6 +147,7 @@ public class UiWatcher {
                     || brand.equalsIgnoreCase("realme")
                     || brand.equalsIgnoreCase("oneplus")
                     ) {
+                toastListener();
                 //oppo输入密码
                 new Thread(new Runnable() {
                     @Override
@@ -286,6 +292,7 @@ public class UiWatcher {
                     }
                 }).start();
             } else if (brand.equalsIgnoreCase("vivo")) {
+                toastListener();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -356,7 +363,7 @@ public class UiWatcher {
         while (isRunning && System.currentTimeMillis() - startTime < outTime) {
             Thread.sleep(1000);
         }
-        UiAutomator2.getInstance().stopUiAutomator();
+//        UiAutomator2.getInstance().stopUiAutomator();
         println("---STOP---");
         System.exit(0);
     }
@@ -372,4 +379,28 @@ public class UiWatcher {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 监测toast
+     */
+    public static void toastListener() {
+        UiAutomator2.getInstance().getUiAutomation().setOnAccessibilityEventListener(new UiAutomation.OnAccessibilityEventListener() {
+            @Override
+            public void onAccessibilityEvent(AccessibilityEvent event) {
+                int eventType = event.getEventType();
+
+                if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+                    Parcelable parcelable = event.getParcelableData();
+                    if (!(parcelable instanceof Notification)) {
+                        String toast = event.getText().get(0).toString();
+                        if (toast.contains("密码错误")) {
+                            isRunning = false;
+                            println("停止执行，监测到Toast：" + toast);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 }
